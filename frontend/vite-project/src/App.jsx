@@ -2,8 +2,8 @@ import react from 'react';
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/home';
-import Createnote from './pages/createnote';
+import Home from './pages/Home';
+import Createnote from './pages/Createnote';
 
 function App() {
   return (
