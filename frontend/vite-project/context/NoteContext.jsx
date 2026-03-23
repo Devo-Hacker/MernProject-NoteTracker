@@ -2,6 +2,10 @@ import {CreateContext} from 'react';
 
 export const NoteContext = CreateContext();
 
+export const NoteProvider = ({children}) => {
+    const [notes, setNotes] = useState([]);
+const [loading, setLoading] = useState(true);
+
 //fetch all notes
 const getNotes = async () => {
 
@@ -20,7 +24,8 @@ const deleteNote = async (id) => {
 }
 
 return (
-    <NoteContext.Provider value={{createNote, updateNote, deleteNote}}>
+    <NoteContext.Provider value={{notes, loading, createNote, updateNote, deleteNote}}>
         {children}
     </NoteContext.Provider>
 )
+}
