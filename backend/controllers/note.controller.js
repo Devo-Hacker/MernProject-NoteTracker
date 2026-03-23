@@ -12,8 +12,9 @@ export const createNote = async(req,res)=>{
         await newNote.save();
         res.status(201).json(newNote);
     } catch (error) {
-        res.status(500).json({ message: "Error creating note" });
-    }
+    console.error(error);  
+    res.status(500).json({ message: error.message });
+}
 }
 
 export const getNotes= async(req, res)=>{
@@ -21,8 +22,9 @@ export const getNotes= async(req, res)=>{
         const notes = await Note.find().sort({createdAt:-1}); 
         res.status(200).json(notes);
     } catch (error) {
-        res.status(500).json({ message: "Error creating note" });
-    }
+    console.error(error);  
+    res.status(500).json({ message: error.message });
+}
 }
 
 export const updateNote= async(req, res)=>{
@@ -38,8 +40,9 @@ export const updateNote= async(req, res)=>{
         res.status(200).json(updatedNote);
 
     } catch (error) {
-        res.status(500).json({ message: "Error creating note" });
-    }
+    console.error(error);  
+    res.status(500).json({ message: error.message });
+}
 }
 
 export const deleteNotes= async(req, res)=>{
@@ -50,6 +53,7 @@ export const deleteNotes= async(req, res)=>{
         }
         res.status(200).json({ message: "Note deleted successfully" });
     } catch (error) {
-        res.status(500).json({ message: "Error creating note" });
-    }
+    console.error(error);  
+    res.status(500).json({ message: error.message });
+}
 }
