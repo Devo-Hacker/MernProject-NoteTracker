@@ -19,27 +19,42 @@ const getNotes = async () => {
     }
 }
 
-useEffect(() => {
-    getNotes();
-}, [])
+
 //create a note
 const createNote = async (note) => {
     const res = await BACKEND_URL.post('/create-note', note);
     setNotes([...notes, res.data]);
 }
 //update a note
-const updateNote = async (id, updatedNote) => {
-    const res = await BACKEND_URL.put(`/update-note/${id}`, updatedNote);
-    setNotes(notes.map(note => note._id === id ? res.data : note));
-}
+const updateNote = async (id, updatedData) => {
+    try {
+      const res = await BACKEND_URL.put(`/update-note/${id}`, updatedData);
+
+      setNotes(prev =>
+        prev.map(note =>
+          note._id === id ? res.data : note
+        )
+      );
+    } catch (error) {
+      console.error("Update failed:", error);
+    }
+  };
 //delete a note
-const deleteNote = async (id) => {
-    await BACKEND_URL.delete(`/delete-note/${id}`);
-    setNotes(notes.filter(note => note._id !== id));
-}
+ const deleteNote = async (id) => {
+    try {
+      await BACKEND_URL.delete(`/delete-note/${id}`);
+      setNotes(prev => prev.filter(note => note._id !== id));
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
+useEffect(() => {
+    getNotes();
+}, [])
 
 return (
-    <NoteContext.Provider value={{notes, loading, createNote, updateNote, deleteNote}}>
+    <NoteContext.Provider value={{notes, loading, getNotes, createNote, updateNote, deleteNote}}>
         {children}
     </NoteContext.Provider>
 )

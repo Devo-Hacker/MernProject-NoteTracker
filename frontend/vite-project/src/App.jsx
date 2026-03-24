@@ -1,30 +1,19 @@
-import react from 'react';
-import Navbar from './components/navbar';
-import Footer from './components/footer';
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Createnote from './pages/Createnote';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import CreateNote from "./pages/Createnote";
+import Navbar from "./components/navbar";
 
 function App() {
   return (
-    <div>
-      {/* navbar */}
-      <Navbar/>
+    <>
+      <Navbar />
 
-
-    {/* main content */}
-    <main>
       <Routes>
         <Route path="/" element={<Home />} />
-        
-        <Route path="/create" element={<Createnote />} />
-      </Routes> 
-    </main>
-
-      {/* footer */}
-      <Footer/>
-    </div>
-  )
+        <Route path="/create" element={<CreateNote />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
