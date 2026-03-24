@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NoteContext } from "../../context/NoteContext";
 import Sidebar from "../components/sidebar";
 import Navbar from "../components/navbar";
@@ -7,16 +7,18 @@ import Footer from "../components/footer";
 function Home() {
   const { notes, loading, deleteNote, updateNote } = useContext(NoteContext);
 
+  const [editingNote, setEditingNote] = useState(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
   return (
     <div className="flex h-screen bg-white">
 
-      {/* SIDEBAR */}
       <Sidebar />
 
       {/* MAIN */}
       <div className="flex-1 flex flex-col">
 
-        {/* NAVBAR */}
         <Navbar />
 
         {/* CONTENT */}
@@ -28,17 +30,12 @@ function Home() {
               My Notes
             </h1>
           </div>
-
-          {/* LOGIC HANDLING */}
+cd
           {loading ? (
-            /* LOADING */
             <div className="flex justify-center items-center h-64">
-              <p className="text-gray-500 text-lg">
-                Loading notes...
-              </p>
+              <p className="text-gray-500 text-lg">Loading notes...</p>
             </div>
           ) : notes.length === 0 ? (
-            /* EMPTY STATE */
             <div className="flex flex-col items-center justify-center h-64 text-center">
               <p className="text-lg font-medium text-gray-700 mb-2">
                 No notes found
@@ -48,7 +45,6 @@ function Home() {
               </p>
             </div>
           ) : (
-            /* NOTES GRID */
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
               {notes.map((note) => (
@@ -73,15 +69,9 @@ function Home() {
                     {/* EDIT */}
                     <button
                       onClick={() => {
-                        const newTitle = prompt("Edit title", note.title);
-                        const newContent = prompt("Edit content", note.content);
-
-                        if (!newTitle || !newContent) return;
-
-                        updateNote(note._id, {
-                          title: newTitle,
-                          content: newContent,
-                        });
+                        setEditingNote(note);
+                        setTitle(note.title);
+                        setContent(note.content);
                       }}
                       className="text-gray-400 hover:text-blue-500 text-sm font-medium"
                     >
@@ -90,7 +80,10 @@ function Home() {
 
                     {/* DELETE */}
                     <button
-                      onClick={() => deleteNote(note._id)}
+                      onClick={() => {
+                        if (!window.confirm("Delete this note?")) return;
+                        deleteNote(note._id);
+                      }}
                       className="text-gray-400 hover:text-red-500 text-sm font-medium"
                     >
                       Delete
@@ -109,6 +102,63 @@ function Home() {
         <Footer />
 
       </div>
+
+      {/* 🔥 EDIT MODAL */}
+      {editingNote && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+
+          <div className="bg-white rounded-2xl p-6 w-96 shadow-lg">
+
+            <h2 className="text-xl font-bold mb-4">Edit Note</h2>
+
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full border p-2 rounded mb-3"
+              placeholder="Title"
+            />
+
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-full border p-2 rounded mb-4"
+              placeholder="Content"
+            />
+
+            <div className="flex justify-end gap-3">
+
+              {/* CANCEL */}
+              <button
+                onClick={() => setEditingNote(null)}
+                className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300"
+              >
+                Cancel
+              </button>
+
+              {/* SAVE */}
+              <button
+                onClick={() => {
+                  if (!title || !content) return;
+
+                  updateNote(editingNote._id, {
+                    title,
+                    content,
+                  });
+
+                  setEditingNote(null);
+                }}
+                className="px-4 py-2 rounded bg-gray-900 text-white hover:bg-gray-700"
+              >
+                Save
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+      )}
+
     </div>
   );
 }
