@@ -7,17 +7,16 @@ function Sidebar() {
       <div>
         <div className="mb-8 px-2">
           <div className="text-indigo-600 font-bold text-base">
-            The Digital Sanctuary
+            <h1 className="text-[27px] font-bold">The Digital Sanctuary</h1>
           </div>
-          <div className="text-gray-400 text-xs">Notes Editor</div>
+          <div className="mt-[10px] text-gray-400 text-xs">Notes Editor</div>
         </div>
 
         <nav className="space-y-1">
           <Link to="/" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-indigo-50 text-indigo-700 font-medium text-sm">
             My Notes
           </Link>
-
-          <Link to="/create" className="flex items-center gap-3 px-3 py-2 text-gray-500 hover:bg-gray-50 text-sm">
+           <Link to="/create" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-indigo-50 text-indigo-700 font-medium text-sm">
             Create New
           </Link>
         </nav>

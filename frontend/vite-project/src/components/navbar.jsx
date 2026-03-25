@@ -1,21 +1,31 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <header className="flex items-center justify-between px-8 py-4 border-b bg-white">
-      
-      <input
-        type="text"
-        placeholder="Search..."
-        className="bg-gray-100 px-4 py-2 rounded-lg text-sm w-64"
-      />
+    <div className="flex justify-between items-center px-8 py-4 bg-white border-b">
 
-      <div className="flex gap-4">
-        <span className="text-sm font-semibold">My Notes</span>
+      {/* LEFT */}
+      <h1 className="text-lg font-bold text-gray-800">
+        The Digital Sanctuary
+      </h1>
+
+      {/* RIGHT */}
+      <div className="flex gap-6 items-center">
+        <Link
+          to="/"
+          className="text-gray-700 font-medium hover:text-black"
+        >
+          Home
+        </Link>
+
+        <Link
+          to="/create"
+          className="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+        >
+          + Create
+        </Link>
       </div>
-
-    </header>
+    </div>
   );
 }
 
